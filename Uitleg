@@ -1,0 +1,13 @@
+Dit project is een slim afvalsorteersysteem op een NVIDIA Jetson Nano. 
+Een camera filmt het afval, en een getraind ResNet18‑model (PyTorch) herkent wat het is: cups, paper, pmd of residual. 
+Op basis van deze voorspelling laat het systeem via LED’s zien in welke afvalbak het object hoort. 
+De camera levert live videobeelden die met OpenCV worden ingelezen. Elk frame wordt omgezet van BGR naar RGB, dan naar een PIL‑image, 
+verkleind naar 224x224 pixels en genormaliseerd zodat het geschikt is voor het AI‑model. 
+Het model doet een voorspelling en berekent voor elke klasse een kans (probability). De klasse met de hoogste kans is de output. 
+Alle LED’s gaan eerst uit, daarna wordt enkel de LED van de voorspelde klasse ingeschakeld. 
+Sommige klassen hebben een minimale confidence nodig: paper bij minstens 50%, 
+pmd bij 80% en residual/other bij 70%. Cups gaat altijd aan bij voorspelling. 
+Tegelijk toont het programma het label en de zekerheid in procenten op het camerabeeld. 
+De Jetson GPIO‑pinnen sturen de LED’s aan (pin 29 cups, pin 11 paper, pin 13 pmd, pin 15 residual). 
+Wanneer de gebruiker op ‘q’ drukt, stopt de camerastream, gaan de LED’s uit en worden de GPIO‑pinnen netjes opgeruimd. 
+Zo kan het systeem makkelijk gebruikt worden voor demo’s of onderwijs om AI‑herkenning en beperkingen te tonen.
